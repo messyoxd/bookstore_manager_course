@@ -2,6 +2,7 @@ package com.messyo.bookstoremanager.service;
 
 import com.messyo.bookstoremanager.dto.BookDTO;
 import com.messyo.bookstoremanager.entity.Book;
+import com.messyo.bookstoremanager.exception.BookNotFoundException;
 import com.messyo.bookstoremanager.repository.BookRepository;
 import com.messyo.bookstoremanager.utils.BookUtils;
 import org.junit.jupiter.api.Assertions;
@@ -30,7 +31,7 @@ public class BookServiceTest {
     private BookService bookService;
 
     @Test
-    void whenGivenExistingIdThenReturnThisBook() {
+    void whenGivenExistingIdThenReturnThisBook() throws BookNotFoundException {
         Book expectedFoundBook = createFakeBook();
 
         when(bookRepository.findById(expectedFoundBook.getId())).thenReturn(Optional.of(expectedFoundBook));
