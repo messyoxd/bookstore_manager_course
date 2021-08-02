@@ -5,6 +5,7 @@ import com.messyo.bookstoremanager.entity.Book;
 import com.messyo.bookstoremanager.exception.BookNotFoundException;
 import com.messyo.bookstoremanager.repository.BookRepository;
 import com.messyo.bookstoremanager.utils.BookUtils;
+import lombok.var;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -29,6 +30,14 @@ public class BookServiceTest {
 
     @InjectMocks
     private BookService bookService;
+
+    @Test
+    void whenGivenUnExistingIdThenNotFoundThrowAnException() {
+        var invalidId = 10L;
+        when(bookRepository.findById(invalidId)).thenReturn(Optional.ofNullable(any(Book.class)));
+
+        assertThrows(BookNotFoundException.class, () -> bookService.findById(invalidId));
+    }
 
     @Test
     void whenGivenExistingIdThenReturnThisBook() throws BookNotFoundException {
